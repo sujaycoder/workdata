@@ -1,0 +1,19 @@
+{
+  "name": "total_board",
+  "version": "1.0.0",
+  "description": "this a app for mqtt protocol",
+  "main": "client.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "sujay thakurata",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mqtt": "^3.0.0",
+    "mysql": "^2.18.1"
+  },
+  "engines": {
+    "node": "12.14.0"
+  }
+}
