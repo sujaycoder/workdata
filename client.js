@@ -1,3 +1,5 @@
+
+///import all the require modules from /modules folder
 const mqtt = require('./modules/mqttconfig');
 const express = require('express');
 const db = require('./modules/dbconfig');
@@ -5,7 +7,7 @@ const channel = require('./modules/channelhandel');
 
 
 ///store the dt alert
-let data = {status: 0};
+let data = {status: 1};
 
 //port number 
 port = process.env.PORT || 3000
@@ -36,9 +38,12 @@ client.on('error', (err)=>{
 
 ///mqtt message listener when a subscribe topic send a msg
 client.on('message', (topic, msg, packet)=>{
+
+	//print the msg geting from the subscriber topics
 	console.log(topic, ": ", msg.toString());
-	data = channel.handeltopic(topic, msg.toString(), data);
-	console.log(data);
+
+	///handel the topics and data and return required data to send via api
+	data = channel.handeltopic(topic, msg.toString(), data, con);
 
 });///message listener
 
@@ -46,11 +51,11 @@ client.on('message', (topic, msg, packet)=>{
 ///do the route
 
 app.get('/api/dtalert', (req, res)=>{
-	res.json(data);
+	res.json(data);//send the response in json format
 });
 
 
 ///run the server
 app.listen(port, () => {
- console.log("Server running on port 3000");
+ console.log("Server running on port " + port);
 });
