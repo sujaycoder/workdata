@@ -17,10 +17,10 @@ function details(err, result, fild) {
 ///connect with the database
 exports.connect = ()=>{
 	const con = mysql.createConnection({
-	host: "localhost",
-	user: "sujay_php",
-	password: "Sujay@1234",
-	database: "total_board"
+	host: "sql12.freemysqlhosting.net",
+	user: "sql12329413",
+	password: "lHlBjeMimc",
+	database: "sql12329413"
 });
 	con.connect((err)=>{
 		if(err) throw err;
