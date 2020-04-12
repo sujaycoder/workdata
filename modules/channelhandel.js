@@ -3,6 +3,12 @@
 const dvname = require('./getdvname');
 const db = require('./dbconfig');
 
+const file = require('fs');
+
+
+///file name
+const file1 = "all_dt_alert.txt";
+const file2 = "fillter_dt_alert.txt";
 
 //machine id list
 const mId = {
@@ -107,6 +113,13 @@ exports.handeltopic = (topic, msg, data,con)=>{
 
 	////if topic is down time alert
 	else if(topic == 'L1_DT_Alert' && data["status"] == 1){
+
+		//file write 
+		file.appendFile(file2, msg+"\n", (err)=>{
+			if(err) console.log('file does not update');
+			else console.log('file update done');
+		});
+
 		data = dvname.getfulldetails(msg); //get details about the machine 
 		db.dtalert(con,data);///insert data into down_time alert table
 		return data;///return the machine details data
@@ -115,6 +128,17 @@ exports.handeltopic = (topic, msg, data,con)=>{
 
 	////when it received a invalid code
 	else{
+
+		//check if the topic is dt alert and this file create when dt_alert get a alert again
+		if (topic == 'L1_DT_Alert'){
+			//file write 
+			file.appendFile(file1, msg+"\n", (err)=>{
+				if(err) console.log('file does not update');
+				else console.log('file update done');
+			});
+		}
+
+		//return the data
 		return data;
 	}
 }
