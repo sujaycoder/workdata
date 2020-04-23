@@ -17,10 +17,10 @@ function details(err, result, fild) {
 ///connect with the database
 exports.connect = ()=>{
 	const con = mysql.createConnection({
-	host: "sql12.freemysqlhosting.net",
-	user: "sql12329413",
-	password: "lHlBjeMimc",
-	database: "sql12329413"
+	host: "localhost",
+	user: "sujay_php",
+	password: "Sujay@1234",
+	database: "total_board"
 });
 	con.connect((err)=>{
 		if(err) throw err;
@@ -49,7 +49,7 @@ exports.getcurrentbatch = (con)=>{
 ///update device table;
 exports.updatedevice = (con,r,u,l,d)=>{
 	///r: rssi u: uptime l: line_number d: device id
-	const query = 'UPDATE devices SET rssi='+r+', device_uptime='+u+' WHERE lan_id='+l+' and device_name='+d;
+	const query = 'UPDATE devices SET last_updated = current_timestamp, rssi='+r+', device_uptime='+u+' WHERE lan_id='+l+' and device_id='+d;
 	con.query(query, (err, result)=>{
 		if(err) throw err;
 		console.log("device table update done");
@@ -59,7 +59,7 @@ exports.updatedevice = (con,r,u,l,d)=>{
 
 ///insert data into downtime alter table
 exports.dtalert = (con, data)=>{
-	query = `INSERT INTO downtime_alert (machine_index,device_id,stop_reson) VALUES (${data['m_id']},${data["d_id"].split('D')[1]},'')`;
+	query = `INSERT INTO downtime_alert (machine_index,device_id,stop_reason, sc) VALUES (${data['m_id']},${data["d_id"].split('D')[1]},'','')`;
 	con.query(query, (err, result)=>{
 		if(err) throw err;
 		console.log("downtime_alert table update done");
